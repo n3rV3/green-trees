@@ -27,7 +27,8 @@ Plugin 'L9'
 " Plugin 'ascenator/L9', {'name': 'newL9'}
 
 " """""" New additions
-Plugin 'klen/python-mode'
+" Plugin 'klen/python-mode'
+Plugin 'valloric/youcompleteme'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'kien/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
@@ -92,6 +93,9 @@ set laststatus=2
 
 " vim-scala
 let g:scala_scaladoc_indent = 1
+
+" youcompleteme
+let g:ycm_python_binary_path = 'python'
 
 " ====================
 " """""" End of Custom settings for plugins
@@ -177,4 +181,3 @@ nnoremap k gk
 set hidden
 set ttyfast
 set history=9001
-" kaljsdf lk jlkjsdflksdj lkfj sadlkfj lks;fkasjflkas jdflksdj aflk;sflksdajflksdjflk saddfkl jsdlfkjsalkfjsdk f;jsda f;ksld jflksdj flksjfklsj fl;ksafjloiwroiewurk sjfkl sajklf skld fskldjf sklajf lsajflkaslkf sa
