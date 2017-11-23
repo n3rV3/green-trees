@@ -1,6 +1,7 @@
 set nocompatible              " be iMproved, required
 set encoding=utf-8
 filetype off                  " required
+set term=xterm-256color
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -9,37 +10,37 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
 Plugin 'L9'
-" Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
-
 " """""" New additions
-" Plugin 'klen/python-mode'
-Plugin 'valloric/youcompleteme'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'kien/ctrlp.vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'sjl/gundo.vim'
-Plugin 'saltstack/salt-vim'
-Plugin 'mitsuhiko/jinja2'
-Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'
+Plugin 'ervandew/supertab'
+Plugin 'honza/vim-snippets'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'kien/ctrlp.vim'
+Plugin 'metakirby5/codi.vim'
+Plugin 'mitsuhiko/jinja2'
+Plugin 'bash-support.vim'
+Plugin 'python-rope/rope'
+" Plugin 'python-mode/python-mode'
+Plugin 'saltstack/salt-vim'
+Plugin 'sjl/gundo.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
+Plugin 'valloric/youcompleteme', {'do': './install.py --clang-completer'}
 " Adding scala support
 Plugin 'derekwyatt/vim-scala'
+" Themes
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'morhetz/gruvbox'
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'reedes/vim-colors-pencil'
+Plugin 'reedes/vim-thematic'
+Plugin 'tomasr/molokai'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+" Python
+Plugin 'hynek/vim-python-pep8-indent'
+Plugin 'nvie/vim-flake8'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -60,18 +61,64 @@ filetype plugin indent on    " required
 " """""" Custom settings for plugins
 syntax enable
 
-" vim-colors-solarized
-set background=dark
-let g:solarized_termcolors=256
-" let g:solarized_termcolors=   16      |   256
-let g:solarized_termtrans =   1
-" let g:solarized_degrade   =   1
+let g:thematic#themes = {
+\  'solarized_dark': {
+\     'colorscheme': 'solarized',
+\     'background': 'dark',
+\     'diff-color-fix': 1,
+\     'sign-column-color-fix': 1,
+\     },
+\  'solarized_light': {
+\     'colorscheme': 'solarized',
+\     'background': 'light',
+\     'diff-color-fix': 1,
+\     'sign-column-color-fix': 1,
+\     },
+\  'pencil_dark': {
+\     'colorscheme': 'pencil',
+\     'background': 'dark',
+\     'airline-theme': 'badwolf',
+\     'typeface': 'Cousine',
+\     },
+\  'molokai': {
+\     'colorscheme': 'molokai',
+\     'background': 'dark',
+\     'airline-theme': 'badwolf',
+\     'typeface': 'Cousine',
+\   },
+\  'jellybeans': {
+\     'colorscheme': 'jellybeans',
+\     'background': 'dark',
+\     'airline-theme': 'badwolf',
+\     'typeface': 'Cousine',
+\   },
+\  'gruvbox': {
+\     'colorscheme': 'gruvbox',
+\     'background': 'dark',
+\     'airline-theme': 'badwolf',
+\     'typeface': 'Cousine',
+\   },
+\  'pencil_light': {
+\     'colorscheme': 'pencil',
+\     'background': 'light',
+\     'airline-theme': 'badwolf',
+\     'typeface': 'Cousine',
+\     },
+\}
+
+let g:thematic#theme_name = 'solarized_dark'
+
+" Solarized settings
 let g:solarized_bold      =   1
 let g:solarized_underline =   1
 let g:solarized_italic    =   1
 let g:solarized_contrast  =   "normal"
 let g:solarized_visibility=   "high"
-colorscheme solarized
+" The following settings are not compatible with iTerm2
+" let g:solarized_termcolors=256
+" let g:solarized_termcolors=   16      |   256
+" let g:solarized_termtrans =   1
+" let g:solarized_degrade   =   1
 
 " python-mode
 " Override go-to.definition key shortcut to Ctrl-]
@@ -81,7 +128,7 @@ colorscheme solarized
 ""   " Override view python doc key shortcut to Ctrl-Shift-d
 ""   let g:pymode_doc_bind = "<C-S-d>"
 ""   let g:pymode_python = 'python3'
-let g:pymode_options_max_line_length=140
+"" let g:pymode_options_max_line_length=140
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
@@ -90,12 +137,43 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_theme='powerlineish'
 set laststatus=2
 
-
 " vim-scala
 let g:scala_scaladoc_indent = 1
 
 " youcompleteme
 let g:ycm_python_binary_path = 'python'
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+" Invoke Flake8 on file save
+autocmd BufWritePost *.py call Flake8()
+let g:flake8_show_in_gutter=1  " show
+let g:flake8_show_in_file=1  " show
+" to use colors defined in the colorscheme
+highlight link Flake8_Error      Error
+highlight link Flake8_Warning    WarningMsg
+highlight link Flake8_Complexity WarningMsg
+highlight link Flake8_Naming     WarningMsg
+highlight link Flake8_PyFlake    WarningMsg
+
+" auto-pairs
+let g:AutoPairsFlyMode = 0
+let g:AutoPairsShortcutBackInsert = '<M-b>'
+
+" gundo.vim
+nnoremap <F5> :GundoToggle<CR>
+let g:gundo_width = 60
+let g:gundo_preview_height = 40
+let g:gundo_right = 1
+
 
 " ====================
 " """""" End of Custom settings for plugins
@@ -166,11 +244,6 @@ imap <right> <nop>
 vnoremap > >gv
 vnoremap < <gv
 
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<c-y>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-d>"
-
 " Set space errors for python
 set list
 set listchars=tab:␉·,trail:␠,nbsp:⎵
@@ -181,3 +254,56 @@ nnoremap k gk
 set hidden
 set ttyfast
 set history=9001
+
+" Jump to the next or previous line that has the same level or a lower
+" level of indentation than the current line.
+"
+" exclusive (bool): true: Motion is exclusive
+" false: Motion is inclusive
+" fwd (bool): true: Go to next line
+" false: Go to previous line
+" lowerlevel (bool): true: Go to line with lower indentation level
+" false: Go to line with the same indentation level
+" skipblanks (bool): true: Skip blank lines
+" false: Don't skip blank lines
+function! NextIndent(exclusive, fwd, lowerlevel, skipblanks)
+  let line = line('.')
+  let column = col('.')
+  let lastline = line('$')
+  let indent = indent(line)
+  let stepvalue = a:fwd ? 1 : -1
+  while (line > 0 && line <= lastline)
+    let line = line + stepvalue
+    if ( ! a:lowerlevel && indent(line) == indent ||
+          \ a:lowerlevel && indent(line) < indent)
+      if (! a:skipblanks || strlen(getline(line)) > 0)
+        if (a:exclusive)
+          let line = line - stepvalue
+        endif
+        exe line
+        exe "normal " column . "|"
+        return
+      endif
+    endif
+  endwhile
+endfunction
+
+" Moving back and forth between lines of same or lower indentation.
+nnoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
+nnoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
+nnoremap <silent> [L :call NextIndent(0, 0, 1, 1)<CR>
+nnoremap <silent> ]L :call NextIndent(0, 1, 1, 1)<CR>
+vnoremap <silent> [l <Esc>:call NextIndent(0, 0, 0, 1)<CR>m'gv''
+vnoremap <silent> ]l <Esc>:call NextIndent(0, 1, 0, 1)<CR>m'gv''
+vnoremap <silent> [L <Esc>:call NextIndent(0, 0, 1, 1)<CR>m'gv''
+vnoremap <silent> ]L <Esc>:call NextIndent(0, 1, 1, 1)<CR>m'gv''
+onoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
+onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
+onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<CR>
+onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<CR>
+
+" adding ctags
+set tags=~/Documents/my_ctags
+
+" NerdTree ignore
+let NERDTreeIgnore=['\.pyc$', '\~$', '\.sw.$'] "ignore files in NERDTree
