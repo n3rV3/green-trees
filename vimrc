@@ -128,7 +128,7 @@ let g:solarized_visibility=   "high"
 ""   " Override view python doc key shortcut to Ctrl-Shift-d
 ""   let g:pymode_doc_bind = "<C-S-d>"
 ""   let g:pymode_python = 'python3'
-"" let g:pymode_options_max_line_length=140
+""   let g:pymode_options_max_line_length=140
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
@@ -307,3 +307,4 @@ set tags=~/Documents/my_ctags
 
 " NerdTree ignore
 let NERDTreeIgnore=['\.pyc$', '\~$', '\.sw.$'] "ignore files in NERDTree
+let g:syntastic_python_pylint_post_args="--max-line-length=140"
